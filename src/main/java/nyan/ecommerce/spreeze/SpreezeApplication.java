@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpreezeApplication {
 
 	public static void main(String[] args) {
-		System.out.println("${spring.data.mongodb.uri}");
 		SpringApplication.run(SpreezeApplication.class, args);
 	}
 
