@@ -41,10 +41,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 throw new IllegalStateException("You're not logged in. Please login!");
             }
 
-            // TODO: need to verify futher the iat and ext
             VerifiedToken verifiedToken = authHelper.validateToken(token);
 
             User user = userRepository.findById(verifiedToken.getId()).orElse(null);
+
+            if (user.getPasswordChangedAt() != null
+                    && verifiedToken.getIssuedAt().before(user.getPasswordChangedAt())) {
+                throw new IllegalStateException("Password has been changed! Please login!");
+            }
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
                     user.getAuthorities());

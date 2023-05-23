@@ -2,6 +2,7 @@ package nyan.ecommerce.spreeze.user;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -45,6 +46,11 @@ public class User implements UserDetails {
 
     private Boolean locked = false;
     private Boolean enabled = true;
+
+    private Date passwordChangedAt = null;
+
+    private String resetPasswordToken = null;
+    private Date resetPasswordExpiresAt = null;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

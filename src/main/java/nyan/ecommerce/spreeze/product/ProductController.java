@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,6 +29,7 @@ public class ProductController {
         return new ResponseEntity<List<Product>>(productService.getAllProducts(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product productToCreate) {
         return new ResponseEntity<Product>(productService.createProduct(productToCreate), HttpStatus.OK);
@@ -38,12 +40,14 @@ public class ProductController {
         return new ResponseEntity<Optional<Product>>(productService.getProduct(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping("{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") ObjectId id,
             @RequestBody Product productToUpdate) {
         return new ResponseEntity<Product>(productService.updateProduct(id, productToUpdate), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") ObjectId id) {
         return new ResponseEntity<String>(productService.deleteProduct(id), HttpStatus.OK);
