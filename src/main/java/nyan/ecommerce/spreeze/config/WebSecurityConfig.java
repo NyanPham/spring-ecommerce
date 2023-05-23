@@ -23,6 +23,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .antMatchers("/api/v*/auth/**").permitAll()
                         .antMatchers("/api/v*/users/**").hasAuthority("ROLE_ADMIN")
+                        .antMatchers("/api/v*/products/**").permitAll()
                         .anyRequest().permitAll());
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
